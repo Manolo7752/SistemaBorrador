@@ -25,7 +25,7 @@ namespace SistemaBorrador
         {
             services.AddRazorPages();
             services.AddDistributedMemoryCache();
-            services.AddSession();
+            services.AddSession(options=>options.IdleTimeout = TimeSpan.FromMinutes(20));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

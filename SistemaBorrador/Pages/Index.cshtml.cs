@@ -35,22 +35,23 @@ namespace SistemaBorrador.Pages
             this.Usuario = saludo;
         }
 
-        public ActionResult OnPost()
+        public IActionResult OnPost()
         {
             if(!ModelState.IsValid)
             {
-                return Page();
+                var usuario = this.Usuario;
+                var pass = this.Password;              
             }
 
-            var usuario = this.Usuario;
-            var pass = this.Password;
+            return Page();
 
             var repo = new LoginRepository();
+            bool resultado = repo.UsuarioExist(Usuario, Password);
             if (repo.UsuarioExist(usuario, pass))
             {
-                Guid sessionId = Guid.NewGuid();
-                HttpContext.Session.SetString("sessionId", sessionId.ToString());
-                Response.Cookies.Append("sessionId", sessionId.ToString());
+                Guid guidsession = Guid.NewGuid();
+                HttpContext.Session.SetString("sessionId", guidsession.ToString());
+                Response.Cookies.Append("sessionId", guidsession.ToString());
 
                 return RedirectToPage("./Test");
             }
